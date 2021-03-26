@@ -1,41 +1,52 @@
-const createError = require('http-errors')
+require('dotenv').config()
 const express = require('express')
-const path = require('path')
-const cookieParser = require('cookie-parser')
-const logger = require('morgan')
-
-const indexRouter = require('./routes/index')
-const usersRouter = require('./routes/users')
-
 const app = express()
+const cors = require('cors')
+const pool = require('./db')
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'))
-app.set('view engine', 'jade')
-
-app.use(logger('dev'))
+// middleware
+app.use(cors())
 app.use(express.json())
+
 app.use(express.urlencoded({ extended: false }))
-app.use(cookieParser())
-app.use(express.static(path.join(__dirname, 'public')))
 
-app.use('/', indexRouter)
-app.use('/users', usersRouter)
-
-// catch 404 and forward to error handler
-app.use(function (req, res, next) {
-  next(createError(404))
+// GET all surveys
+app.get('/surveys', async (req, res) => {
+  try {
+    // get surveys
+    const allSurveys = await pool.query('SELECT * FROM surveys')
+    res.json(allSurveys.rows)
+  } catch (err) {
+    console.log(err.message)
+  }
 })
 
-// error handler
-app.use(function (err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message
-  res.locals.error = req.app.get('env') === 'development' ? err : {}
-
-  // render the error page
-  res.status(err.status || 500)
-  res.render('error')
+// Get A survey
+app.get('/surveys/:id', async (req, res) => {
+  try {
+    //get a specific survey
+    const { id } = req.params
+    const survey = await pool.query('SELECT * FROM surveys WHERE id = $1', [id])
+    // get those surveys questions
+    const questions = await pool.query(
+      'SELECT * FROM questions WHERE survey_id = $1',
+      [survey.rows[0].id]
+    )
+    // get answers to the questions
+    const answers = await pool.query(
+      'SELECT * FROM answers WHERE question_id = $1',
+      [questions.rows[0].id]
+    )
+    const response = {
+      survey: {
+        ...questions.rows[0],
+        answers: answers.rows,
+      },
+    }
+    res.json(response)
+  } catch (err) {
+    console.log(err.message)
+  }
 })
 
 module.exports = app
