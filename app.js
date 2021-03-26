@@ -16,6 +16,7 @@ app.get('/surveys', async (req, res) => {
     // get surveys
     const allSurveys = await pool.query('SELECT * FROM surveys')
     res.json(allSurveys.rows)
+    console.log('sending surveys')
   } catch (err) {
     console.log(err.message)
   }
@@ -39,6 +40,7 @@ app.get('/surveys/:id', async (req, res) => {
       const q = {
         id: question.id,
         title: question.title,
+        questionDescription: question.questiondescription,
         answers: answers.rows.filter(
           (answer) => answer.question_id === question.id
         ),
@@ -53,6 +55,7 @@ app.get('/surveys/:id', async (req, res) => {
       },
     }
     res.json(response)
+    console.log('sending response')
   } catch (err) {
     console.log(err.message)
   }
