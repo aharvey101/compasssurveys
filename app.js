@@ -32,15 +32,24 @@ app.get('/surveys/:id', async (req, res) => {
       'SELECT * FROM questions WHERE survey_id = $1',
       [survey.rows[0].id]
     )
-    // get answers to the questions
-    const answers = await pool.query(
-      'SELECT * FROM answers WHERE question_id = $1',
-      [questions.rows[0].id]
-    )
+    // get all answers to the questions
+    const answers = await pool.query('SELECT * FROM answers')
+
+    const qwa = questions.rows.map((question) => {
+      const q = {
+        id: question.id,
+        title: question.title,
+        answers: answers.rows.filter(
+          (answer) => answer.question_id === question.id
+        ),
+      }
+      return q
+    })
     const response = {
       survey: {
-        ...questions.rows[0],
-        answers: answers.rows,
+        id: survey.rows[0].id,
+        name: survey.rows[0].name,
+        questions: qwa,
       },
     }
     res.json(response)

@@ -4,7 +4,11 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "dev": "nodemon ./bib/www"
+    "dev": "nodemon ./bib/www",
+    "build": "cd frontend && npm run build",
+    "install-client": "cd frontend && npm install",
+    "client": "cd frontend && npm start",
+    "heroku-postbuild": "npm run install-client && npm run build"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
