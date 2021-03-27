@@ -7,7 +7,6 @@ const pool = require('./db')
 // middleware
 app.use(cors())
 app.use(express.json())
-
 app.use(express.urlencoded({ extended: false }))
 
 // GET all surveys
@@ -48,11 +47,9 @@ app.get('/surveys/:id', async (req, res) => {
       return q
     })
     const response = {
-      survey: {
-        id: survey.rows[0].id,
-        name: survey.rows[0].name,
-        questions: qwa,
-      },
+      id: survey.rows[0].id,
+      name: survey.rows[0].name,
+      questions: qwa,
     }
     res.json(response)
     console.log('sending response')

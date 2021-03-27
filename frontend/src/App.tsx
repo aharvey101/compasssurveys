@@ -16,7 +16,7 @@ type Props = {
 type SurveyType = {
   id: number
   name: string
-  questions: string[]
+  questions: object[]
 }
 
 type LoadingState = boolean
@@ -37,7 +37,7 @@ type QProps = {
   id: number
   title: string
   questionDescription: string
-  answers: object[]
+  answers: object[][]
 }
 
 const Question: React.FC<QProps> = ({
@@ -45,14 +45,22 @@ const Question: React.FC<QProps> = ({
   title,
   questionDescription,
   answers,
-}) => <></>
+}) => (
+  <>
+    <input type="checkbox" />
+  </>
+)
 
 function App() {
   // on load, get data from database
   const [loading, setLoading] = useState<LoadingState>(true)
   const [surveys, setSurveys] = useState<SurveysType[]>([])
   const [surveyOpen, setSurveyOpen] = useState(false)
-  const [survey, setSurvey] = useState<SurveyType[]>([])
+  const [survey, setSurvey] = useState<SurveyType>({
+    questions: {
+      question: 'string',
+    },
+  })
 
   const getSurveys = async () => {
     try {
@@ -92,14 +100,14 @@ function App() {
         <>
           <h1>Hello Survey</h1>
 
-          {/* {survey.questions.map((question) => (
+          {survey.questions.map((question) => (
             <Question
               id={question.id}
               title={question.title}
               questionDescription={question.questionDescription}
               answers={question.answers}
             />
-          ))} */}
+          ))}
         </>
       )}
     </>
