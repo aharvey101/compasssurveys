@@ -68,17 +68,17 @@ const CreateSurvey = ({ baseUrl }) => {
   }
   const submit = async (e) => {
     e.preventDefault()
-    const submitObj = await makeSubmitObject()
-    console.log(submitObj)
+    // const submitObj = await makeSubmitObject()
+
     try {
-      const res = await fetch(`${baseUrl}createSurvey`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(submitObj),
-      })
-      // window.location = '/'
+      //   const res = await fetch(`${baseUrl}createSurvey`, {
+      //     method: 'POST',
+      //     headers: {
+      //       'Content-Type': 'application/json',
+      //     },
+      //     body: JSON.stringify(submitObj),
+      //   })
+      window.location = '/'
     } catch (err) {
       console.log(err.message)
     }

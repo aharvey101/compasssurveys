@@ -51,6 +51,7 @@ export const FormWrapper = styled.form`
 
     filter: drop-shadow(5px 5px 10px rgba(5, 5, 5, 0.2));
     :hover {
+      border-color: #81e981;
       background: #81e981;
     }
   }

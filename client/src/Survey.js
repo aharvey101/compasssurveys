@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { QuestionStyle } from './Survey.styles'
 import { Back } from './App.styles'
 import { useParams, Link } from 'react-router-dom'
+import { mockData } from './mockData'
 
 const Question = ({ id, title, question, answers }) => (
   <QuestionStyle>
@@ -41,12 +42,22 @@ const Survey = ({ baseUrl }) => {
   }
 
   const { id } = useParams()
+  // FOR USE IN PROD ONLY
+  // useEffect(() => {
+  //   getSurvey(id)
+  //   setTimeout(() => {}, 1000)
+  // }, [])
 
+  // with Mock Data for netlify
   useEffect(() => {
-    getSurvey(id)
-    setTimeout(() => {}, 1000)
+    // find survey in array
+
+    const survey = mockData.surveys.filter((survey) => survey.id === Number(id))
+
+    setSurvey(survey[0])
+    setLoading(false)
   }, [])
-  console.log(survey)
+
   return (
     <>
       {!loading ? (

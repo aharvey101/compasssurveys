@@ -3,6 +3,8 @@ import { Wrapper, SurveyButtonStyle } from './Home.styles'
 import { Link } from 'react-router-dom'
 import { Button } from 'reactstrap'
 
+const { mockData } = require('./mockData')
+
 const SurveyButton = ({ id, name }) => (
   <SurveyButtonStyle key={name}>
     <Link to={`/survey/${id}`}>
@@ -34,11 +36,16 @@ function App({ baseUrl }) {
     }
   }
 
-  useEffect(async () => {
-    const res = await getSurveys()
-    if (res) {
-      setLoading(false)
-    }
+  // useEffect(async () => {
+  //   const res = await getSurveys()
+  //   if (res) {
+  //     setLoading(false)
+  //   }
+  // }, [])
+
+  useEffect(() => {
+    setSurveys(mockData.surveys)
+    setLoading(false)
   }, [])
 
   return (
