@@ -18,15 +18,13 @@ const Question = ({ id, title, question, answers }) => (
   </QuestionStyle>
 )
 
-const Survey = () => {
+const Survey = ({ baseUrl }) => {
   const [loading, setLoading] = useState(true)
   const [survey, setSurvey] = useState()
 
   const getSurvey = async (id) => {
     try {
-      const response = await (
-        await fetch(`http://localhost:5000/surveys/${id}`)
-      ).json()
+      const response = await (await fetch(`${baseUrl}${id}`)).json()
       setSurvey(response)
       setLoading(false)
     } catch (err) {
@@ -50,7 +48,6 @@ const Survey = () => {
         answers={question.answers}
       />
     ))
-    console.log(SurveyQuestions)
   }
 
   return (

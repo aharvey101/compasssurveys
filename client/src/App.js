@@ -10,19 +10,22 @@ const App = (props) => {
   const [loading, setLoading] = useState(true)
   const [survey, setSurvey] = useState([])
 
+  const baseUrl =
+    process.env.NODE_ENV === 'production' ? '/' : 'http://localhost:5000/'
+
   console.log('survey is', survey)
   return (
     <Router>
       <GlobalStyle />
       <Switch>
         <Route exact path="/">
-          <Home setSurvey={setSurvey} />
+          <Home baseUrl={baseUrl} setSurvey={setSurvey} />
         </Route>
         <Route exact path="/createSurvey">
-          <CreateSurvey />
+          <CreateSurvey baseUrl={baseUrl} />
         </Route>
-        <Route exact path="/survey/:id" setLoading={setLoading}>
-          <Survey />
+        <Route exact path="/survey/:id">
+          <Survey setLoading={setLoading} baseUrl={baseUrl} />
         </Route>
       </Switch>
     </Router>

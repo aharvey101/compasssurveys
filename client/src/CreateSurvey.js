@@ -4,7 +4,7 @@ import { FormWrapper, Submit } from './CreateSurvey.styles'
 import { Back } from './App.styles'
 import { Link } from 'react-router-dom'
 
-const CreateSurvey = (props) => {
+const CreateSurvey = ({ baseUrl }) => {
   const [newSurvey, setNewSurvey] = useState({})
 
   const handleChangeName = (e) => {
@@ -74,12 +74,9 @@ const CreateSurvey = (props) => {
     e.preventDefault()
     const submitObj = await makeSubmitObject()
     console.log(submitObj)
-    const url =
-      process.env.NODE_ENV === 'production'
-        ? '/createSurvey'
-        : 'http://localhost:5000/createSurvey'
+
     try {
-      const res = await fetch(url, {
+      const res = await fetch(`${baseUrl}createSurvey`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

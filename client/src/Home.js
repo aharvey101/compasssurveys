@@ -16,14 +16,13 @@ const SurveyButton = ({ id, name, openSurvey }) => (
   </SurveyButtonStyle>
 )
 
-function App({ setSurvey }) {
+function App({ setSurvey, baseUrl }) {
   const [loading, setLoading] = useState(true)
   const [surveys, setSurveys] = useState({})
+
   const getSurveys = async () => {
     try {
-      const response = await (
-        await fetch('http://localhost:5000/surveys')
-      ).json()
+      const response = await (await fetch(`${baseUrl}surveys`)).json()
       setSurveys(response)
     } catch (err) {
       console.error(err.message)
