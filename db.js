@@ -1,25 +1,20 @@
-const Pool = require('pg').Pool
+const { Client, Pool } = require('pg')
 
-const poolEnv =
-  process.env.NODE_ENV === 'production'
-    ? {
-        connectionString: process.env.DATABASE_URL,
-        ssl: {
-          rejectUnauthorized: false,
-        },
-      }
-    : {
-        user: process.env.DB_USER,
-        password: process.env.PASSWORD,
-        host: process.env.HOST,
-        port: process.env.PORT,
-        database: process.env.DATABASE_URL,
-      }
-
-const pool = new Pool({
-  ...poolEnv,
+const client = new Client({
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false,
+  },
 })
 
-pool.connect()
+const pool = new Pool({
+  user: process.env.DB_USER,
+  password: process.env.PASSWORD,
+  host: process.env.HOST,
+  port: process.env.PORT,
+  database: process.env.DATABASE_URL,
+})
 
-module.exports = pool
+client.connect()
+
+module.exports = process.env.NODE_ENV === 'production' ? client : pool
