@@ -17,4 +17,6 @@ const pool = new Pool({
 
 client.connect()
 
-module.exports = process.env.NODE_ENV === 'production' ? client : pool
+process.env.NODE_ENV === 'production'
+  ? (module.exports = client)
+  : (module.exports = pool)
