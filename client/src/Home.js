@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { Wrapper, SurveyButtonStyle, Header } from './Home.styles'
+import { Wrapper, SurveyButtonStyle } from './Home.styles'
 import { Link } from 'react-router-dom'
+import { Button } from 'reactstrap'
 
 const SurveyButton = ({ id, name }) => (
-  <SurveyButtonStyle key={id}>
+  <SurveyButtonStyle key={name}>
     <Link to={`/survey/${id}`}>
       <button>
         <p>{name}</p>
@@ -12,13 +13,12 @@ const SurveyButton = ({ id, name }) => (
   </SurveyButtonStyle>
 )
 
-function App({ setSurvey, baseUrl }) {
+function App({ baseUrl }) {
   const [loading, setLoading] = useState(true)
   const [surveys, setSurveys] = useState([])
 
   const getSurveys = async () => {
     try {
-      console.log(`${baseUrl}surveys`)
       const response = await (
         await fetch(`${baseUrl}surveys`, {
           method: 'GET',
@@ -27,38 +27,35 @@ function App({ setSurvey, baseUrl }) {
           headers: { 'Content-Type': 'application/json' },
         })
       ).json()
-      console.log(response)
       setSurveys(response)
+      return true
     } catch (err) {
       console.error(err.message)
     }
   }
 
   useEffect(async () => {
-    getSurveys()
-    setTimeout(() => {
+    const res = await getSurveys()
+    if (res) {
       setLoading(false)
-    }, 2000)
+    }
   }, [])
-
-  const openSurvey = async (id) => {
-    console.log('opening survey')
-  }
 
   return (
     <>
       <Wrapper>
-        {surveys.length >= 1 ? (
+        {!loading ? (
           <>
-            <Header>
-              <h1>Compass Surveys</h1>
-              <Link to="/createSurvey">
-                <button>Create Survey</button>
-              </Link>
-            </Header>
+            <h1>Compass Surveys</h1>
+
             {surveys.map((survey) => (
               <SurveyButton {...survey} />
             ))}
+            <Link className="create_survey" to="/createSurvey">
+              <Button className="create_survey_button" color="primary">
+                Create Survey
+              </Button>
+            </Link>
           </>
         ) : (
           <h1>Loading</h1>

@@ -11,8 +11,15 @@ const Question = ({ id, title, question, answers }) => (
     <form>
       {answers.map((answer) => (
         <div className="answer" key={answer.id}>
-          <input id="answer-radio" name="answer-radio" type="radio" />
-          <label htmlFor="answer-radio">{answer.title}</label>
+          <input
+            className="answer_input"
+            id="answer-radio"
+            name="answer-radio"
+            type="radio"
+          />
+          <label className="answer_label" htmlFor="answer-radio">
+            {answer.title}
+          </label>
         </div>
       ))}
     </form>
@@ -25,8 +32,6 @@ const Survey = ({ baseUrl }) => {
 
   const getSurvey = async (id) => {
     try {
-      const url = `${baseUrl}surveys/${id}`
-      console.log(url)
       const response = await (await fetch(`${baseUrl}surveys/${id}`)).json()
       setSurvey(response)
       setLoading(false)
@@ -41,17 +46,6 @@ const Survey = ({ baseUrl }) => {
     getSurvey(id)
     setTimeout(() => {}, 1000)
   }, [])
-
-  if (!loading) {
-    const SurveyQuestions = survey.questions.map((question) => (
-      <Question
-        id={question.id}
-        title={question.title}
-        question={question.question}
-        answers={question.answers}
-      />
-    ))
-  }
   console.log(survey)
   return (
     <>

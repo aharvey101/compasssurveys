@@ -1,5 +1,4 @@
 import styled, { createGlobalStyle } from 'styled-components'
-import BGImage from './images/pencils.jpg'
 
 export const GlobalStyle = createGlobalStyle`
 html {
@@ -7,8 +6,7 @@ html {
 }
 
 body {
-  background-image: url(${BGImage});
-  background-size:cover;
+ background-color: #E9E7E8;
   margin: 0;
   padding: 0;
   display: flex;

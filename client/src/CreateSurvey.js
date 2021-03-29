@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
+import { FormWrapper } from './CreateSurvey.styles'
 
-import { FormWrapper, Submit } from './CreateSurvey.styles'
-import { Back } from './App.styles'
 import { Link } from 'react-router-dom'
+import { Input, Label, Button } from 'reactstrap'
 
 const CreateSurvey = ({ baseUrl }) => {
   const [newSurvey, setNewSurvey] = useState({})
@@ -48,10 +48,7 @@ const CreateSurvey = ({ baseUrl }) => {
 
   const makeSubmitObject = async (e) => {
     const questionsArray = Object.values(newSurvey.questions)
-    console.log('questionsArray is', questionsArray)
     const optionsArray = Object.values(newSurvey.options)
-    console.log(optionsArray)
-
     const newQuestions = questionsArray.map((question) => {
       const newObj = {
         title: question.title,
@@ -60,7 +57,6 @@ const CreateSurvey = ({ baseUrl }) => {
           (option) => option.questionId === question.questionId
         ),
       }
-
       return newObj
     })
 
@@ -74,7 +70,6 @@ const CreateSurvey = ({ baseUrl }) => {
     e.preventDefault()
     const submitObj = await makeSubmitObject()
     console.log(submitObj)
-
     try {
       const res = await fetch(`${baseUrl}createSurvey`, {
         method: 'POST',
@@ -83,8 +78,7 @@ const CreateSurvey = ({ baseUrl }) => {
         },
         body: JSON.stringify(submitObj),
       })
-
-      console.log(res)
+      // window.location = '/'
     } catch (err) {
       console.log(err.message)
     }
@@ -94,92 +88,172 @@ const CreateSurvey = ({ baseUrl }) => {
     <>
       <FormWrapper>
         <h1>Create A New Survey</h1>
-        {/* input name */}
-        <label className="question_label" htmlFor="surveyName">
-          SurveyName
-        </label>
-        <input
-          className="question_input"
+        {/* Input name */}
+        <Label className="surveyName_label" htmlFor="surveyName">
+          Survey Name
+        </Label>
+        <Input
+          className="question_Input"
           type="text"
           name="surveyName"
           onChange={handleChangeName}
         />
-        <label htmlFor="question1">Question 1</label>
-        <input
-          className="question_input"
-          type="text"
-          id="question1"
-          name="Question 1"
-          onChange={handleQuestion}
-        />
-        <div className="options">
-          <label htmlFor="option1">Option 1</label>
-          <input
-            className="question_input"
+        <div className="question_container">
+          <Label className="question_label" htmlFor="question1">
+            Question 1
+          </Label>
+          <Input
+            className="question_Input"
             type="text"
             id="question1"
-            onChange={(e) => handleOptionChange(e, 'question1')}
-            name="question1option1"
+            name="Question 1"
+            onChange={handleQuestion}
           />
-          <label htmlFor="option2">Option 2</label>
-
-          <input
-            className="question_input"
-            type="text"
-            id="question1"
-            onChange={(e) => handleOptionChange(e, 'question1')}
-            name="question1option2"
-          />
+          <div className="options">
+            <Label htmlFor="option1">Option 1</Label>
+            <Input
+              className="question_Input"
+              type="text"
+              id="question1"
+              onChange={handleOptionChange}
+              name="question1option1"
+            />
+            <Label htmlFor="option2">Option 2</Label>
+            <Input
+              className="question_Input"
+              type="text"
+              id="question1"
+              onChange={handleOptionChange}
+              name="question1option2"
+            />
+            <Label htmlFor="option3">Option 3</Label>
+            <Input
+              className="question_Input"
+              type="text"
+              id="question1"
+              onChange={handleOptionChange}
+              name="question1option3"
+            />
+            <Label htmlFor="option4">Option 4</Label>
+            <Input
+              className="question_Input"
+              type="text"
+              id="question1"
+              onChange={handleOptionChange}
+              name="question1option4"
+            />
+          </div>
         </div>
-        <label className="label" htmlFor="question2">
-          Question 2
-        </label>
-        <input
-          className="question"
-          type="text"
-          id="question2"
-          name="Question 2"
-          onChange={handleQuestion}
-        />
-        <div className="options">
-          <label className="option_label" htmlFor="option1">
-            Option 1
-          </label>
-          <input
-            className="option_input"
+        <div className="question_container">
+          <Label className="question_label" htmlFor="question2">
+            Question 2
+          </Label>
+          <Input
+            className="question"
             type="text"
             id="question2"
-            onChange={(e) => handleOptionChange(e)}
-            name="question2option1"
+            name="Question 2"
+            onChange={handleQuestion}
           />
-          <label htmlFor="option2">Option 2</label>
-          <input
+          <div className="options">
+            <Label className="option_Label" htmlFor="option1">
+              Option 1
+            </Label>
+            <Input
+              className="option_Input"
+              type="text"
+              id="question2"
+              onChange={(e) => handleOptionChange(e)}
+              name="question2option1"
+            />
+            <Label className="option_Label" htmlFor="option2">
+              Option 2
+            </Label>
+            <Input
+              type="text"
+              id="question2"
+              onChange={(e) => handleOptionChange(e)}
+              name="question2option2"
+            />
+            <Label className="option_Label" htmlFor="option3">
+              Option 3
+            </Label>
+            <Input
+              type="text"
+              id="question2"
+              onChange={(e) => handleOptionChange(e)}
+              name="question2option3"
+            />
+            <Label className="option_Label" htmlFor="option4">
+              Option 4
+            </Label>
+            <Input
+              type="text"
+              id="question2"
+              onChange={(e) => handleOptionChange(e)}
+              name="question2option4"
+            />
+          </div>
+        </div>
+        <div className="question_container">
+          <Label className="question_label" htmlFor="question3">
+            Question 3
+          </Label>
+          <Input
+            className="question"
             type="text"
-            id="question2"
-            onChange={(e) => handleOptionChange(e)}
-            name="question2option2"
+            id="question3"
+            name="Question 3"
+            onChange={handleQuestion}
           />
-          <label htmlFor="option3">Option 3</label>
-          <input
-            type="text"
-            id="question2"
-            onChange={(e) => handleOptionChange(e)}
-            name="question2option3"
-          />
-          <label htmlFor="option4">Option 4</label>
-          <input
-            type="text"
-            id="question2"
-            onChange={(e) => handleOptionChange(e)}
-            name="question2option4"
-          />
+          <div className="options">
+            <Label className="option_Label" htmlFor="option1">
+              Option 1
+            </Label>
+            <Input
+              className="option_Input"
+              type="text"
+              id="question3"
+              onChange={(e) => handleOptionChange(e)}
+              name="question3option1"
+            />
+            <Label className="option_Label" htmlFor="option2">
+              Option 2
+            </Label>
+            <Input
+              type="text"
+              id="question3"
+              onChange={(e) => handleOptionChange(e)}
+              name="question3option2"
+            />
+            <Label className="option_Label" htmlFor="option3">
+              Option 3
+            </Label>
+            <Input
+              type="text"
+              id="question3"
+              onChange={(e) => handleOptionChange(e)}
+              name="question3option3"
+            />
+            <Label className="option_Label" htmlFor="option4">
+              Option 4
+            </Label>
+            <Input
+              type="text"
+              id="question3"
+              onChange={(e) => handleOptionChange(e)}
+              name="question3option4"
+            />
+          </div>
         </div>
         <div className="form-buttons">
           <Link to="/">
-            <Back>Back</Back>
+            <Button className="backButton">Back</Button>
           </Link>
           <Link to="/">
-            <Submit onClick={submit}>Submit</Submit>
+            <Button className="submitButton" onClick={submit}>
+              Submit
+            </Button>
           </Link>
         </div>
       </FormWrapper>

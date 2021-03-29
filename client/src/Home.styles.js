@@ -5,6 +5,18 @@ export const Wrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  .create_survey {
+    margin: 1em 0.55em 0 0;
+    align-self: flex-end;
+  }
+  .create_survey_button {
+    filter: drop-shadow(5px 5px 10px rgba(5, 5, 5, 0.2));
+    :hover {
+      border-color: #459dfc;
+      background: #459dfc;
+    }
+  }
 `
 
 export const SurveyButtonStyle = styled.div`
@@ -27,11 +39,6 @@ export const SurveyButtonStyle = styled.div`
       background: #f6de94;
     }
   }
-`
-
-export const Header = styled.div`
-  flex-direction: row;
-  align-content: space-around;
 `
 
 export const QuestionStyle = styled.div`
