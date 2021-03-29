@@ -8,8 +8,6 @@ const sql = require('sql')
 
 pool.connect().then(console.log('connected to db'))
 
-console.log(pool)
-
 // middleware
 
 app.use(cors())

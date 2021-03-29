@@ -22,6 +22,7 @@ function App({ setSurvey, baseUrl }) {
 
   const getSurveys = async () => {
     try {
+      console.log(`${baseUrl}surveys`)
       const response = await (await fetch(`${baseUrl}surveys`)).json()
       setSurveys(response)
     } catch (err) {
@@ -39,11 +40,6 @@ function App({ setSurvey, baseUrl }) {
   const openSurvey = async (id) => {
     console.log('opening survey')
   }
-
-  const back = () => {
-    window.location('/')
-  }
-  console.log(surveys)
 
   return (
     <>
@@ -63,7 +59,9 @@ function App({ setSurvey, baseUrl }) {
               />
             ))}
           </>
-        ) : null}
+        ) : (
+          <h1>Loading</h1>
+        )}
       </Wrapper>
     </>
   )
