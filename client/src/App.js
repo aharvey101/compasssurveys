@@ -6,12 +6,12 @@ import Survey from './Survey'
 import { GlobalStyle } from './App.styles'
 
 const App = (props) => {
-  // app level states
+  // app level state
   const [loading, setLoading] = useState(true)
   const [survey, setSurvey] = useState([])
 
   const baseUrl =
-    process.env.NODE_ENV === 'production' ? '/' : 'http://localhost:5000/'
+    process.env.NODE_ENV === 'production' ? '/api' : 'http://localhost:5000/'
 
   console.log('survey is', survey)
   return (

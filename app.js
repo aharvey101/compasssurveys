@@ -23,7 +23,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // GET all surveys
-app.get('/surveys', async (req, res) => {
+app.get('/api/surveys', async (req, res) => {
   try {
     // get surveys
     const allSurveys = await pool.query('SELECT * FROM surveys')
@@ -36,7 +36,7 @@ app.get('/surveys', async (req, res) => {
 })
 
 // Get A survey
-app.get('/surveys/:id', async (req, res) => {
+app.get('/api/surveys/:id', async (req, res) => {
   try {
     //get a specific survey
     const { id } = req.params
@@ -75,7 +75,7 @@ app.get('/surveys/:id', async (req, res) => {
 
 // Create a survey
 
-app.post('/createSurvey', async (req, res) => {
+app.post('/api/createSurvey', async (req, res) => {
   const survey = req.body
   console.log('survey is,', survey)
   try {

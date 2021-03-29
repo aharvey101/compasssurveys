@@ -60,6 +60,7 @@ const Survey = ({ baseUrl }) => {
           <h1>{survey.name}</h1>
           {survey.questions.map((question) => (
             <Question
+              key={question.id}
               id={question.id}
               title={question.title}
               question={question.question}

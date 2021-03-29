@@ -2,14 +2,10 @@ import React, { useState, useEffect } from 'react'
 import { Wrapper, SurveyButtonStyle, Header } from './Home.styles'
 import { Link } from 'react-router-dom'
 
-const SurveyButton = ({ id, name, openSurvey }) => (
+const SurveyButton = ({ id, name }) => (
   <SurveyButtonStyle key={id}>
     <Link to={`/survey/${id}`}>
-      <button
-        onClick={() => {
-          openSurvey(id)
-        }}
-      >
+      <button>
         <p>{name}</p>
       </button>
     </Link>
@@ -18,23 +14,31 @@ const SurveyButton = ({ id, name, openSurvey }) => (
 
 function App({ setSurvey, baseUrl }) {
   const [loading, setLoading] = useState(true)
-  const [surveys, setSurveys] = useState({})
+  const [surveys, setSurveys] = useState([])
 
   const getSurveys = async () => {
     try {
       console.log(`${baseUrl}surveys`)
-      const response = await (await fetch(`${baseUrl}surveys`)).json()
+      const response = await (
+        await fetch(`${baseUrl}surveys`, {
+          method: 'GET',
+          mode: 'cors',
+          credientials: 'same-origin',
+          headers: { 'Content-Type': 'application/json' },
+        })
+      ).json()
+      console.log(response)
       setSurveys(response)
     } catch (err) {
       console.error(err.message)
     }
   }
 
-  useEffect(() => {
+  useEffect(async () => {
     getSurveys()
-    // setTimeout(() => {
-    //   setLoading(false)
-    // }, 1000)
+    setTimeout(() => {
+      setLoading(false)
+    }, 2000)
   }, [])
 
   const openSurvey = async (id) => {
@@ -44,7 +48,7 @@ function App({ setSurvey, baseUrl }) {
   return (
     <>
       <Wrapper>
-        {!loading ? (
+        {surveys.length >= 1 ? (
           <>
             <Header>
               <h1>Compass Surveys</h1>
@@ -53,10 +57,7 @@ function App({ setSurvey, baseUrl }) {
               </Link>
             </Header>
             {surveys.map((survey) => (
-              <SurveyButton
-                {...survey}
-                openSurvey={() => openSurvey(survey.id).then(setLoading(false))}
-              />
+              <SurveyButton {...survey} />
             ))}
           </>
         ) : (
