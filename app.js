@@ -3,6 +3,7 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 const pool = require('./db')
+const sql = require('sql')
 
 // middleware
 app.use(cors())
@@ -55,6 +56,77 @@ app.get('/surveys/:id', async (req, res) => {
     console.log('sending response')
   } catch (err) {
     console.log(err.message)
+  }
+})
+
+// Create a survey
+
+app.post('/createSurvey', async (req, res) => {
+  const survey = req.body
+  console.log('survey is,', survey)
+  try {
+    //Create entry in survey table
+    const surveyRes = await pool.query(
+      'INSERT INTO surveys (name) values ($1) RETURNING *',
+      [survey.name]
+    )
+    console.log(surveyRes.rows)
+    // then create questions with survey id,
+
+    const questionsToPost = survey.questions.map((question) => ({
+      survey_id: surveyRes.rows[0].id,
+      title: question.title,
+      question: question.question,
+    }))
+    console.log('q to post are', questionsToPost)
+    const Questions = sql.define({
+      name: 'questions',
+      columns: ['id', 'survey_id', 'title', 'question'],
+    })
+
+    const questionQuery = Questions.insert(questionsToPost)
+      .returning('*')
+      .toQuery()
+    const questionRes = await pool.query(questionQuery)
+
+    console.log('questionRes is', questionRes.rows)
+
+    //Define table for query:
+    const Answers = sql.define({
+      name: 'answers',
+      columns: ['id', 'survey_id', 'title', 'question_id'],
+    })
+
+    //make answers object for query:
+    const answersArray = survey.questions.map((question, index) => {
+      const questionId = questionRes.rows[index].id
+      const answers = question.answers.map((answer) => ({
+        title: answer.title,
+        question_id: questionId,
+      }))
+      return answers
+    })
+
+    // make query for answers
+    const answerQuery = Answers.insert(answersArray).returning('*').toQuery()
+    const answersRes = await pool.query(answerQuery)
+
+    res.send('200')
+  } catch (err) {
+    console.log(err.message)
+    res.send(new Error())
+  }
+})
+
+// server side is admin check
+
+app.get('/adminCheck', (req, res) => {
+  const password = req.body
+
+  if ((password = 'isAdmin')) {
+    res.send(200)
+  } else {
+    res.send(new Error())
   }
 })
 

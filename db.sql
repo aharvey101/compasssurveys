@@ -1,14 +1,13 @@
 CREATE TABLE surveys (
   id SERIAL NOT NULL PRIMARY KEY,
-  name varchar(255),
-  question_Number int
+  name varchar(255)
 );
 
 CREATE TABLE questions (
   id SERIAL NOT NULL PRIMARY KEY,
   survey_id int NOT NULL,
   title varchar(255) NOT NULL,
-  questionDescription varchar(255),
+  question varchar(255),
   FOREIGN KEY (survey_id) REFERENCES surveys(id)
 );
 
