@@ -32,9 +32,9 @@ function App({ setSurvey, baseUrl }) {
 
   useEffect(() => {
     getSurveys()
-    setTimeout(() => {
-      setLoading(false)
-    }, 1000)
+    // setTimeout(() => {
+    //   setLoading(false)
+    // }, 1000)
   }, [])
 
   const openSurvey = async (id) => {
