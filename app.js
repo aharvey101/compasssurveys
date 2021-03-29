@@ -6,6 +6,10 @@ const pool = require('./db')
 const path = require('path')
 const sql = require('sql')
 
+pool.connect().then(console.log('connected to db'))
+
+console.log(pool)
+
 // middleware
 
 app.use(cors())
@@ -29,7 +33,7 @@ app.get('/surveys', async (req, res) => {
     console.log('sending surveys')
   } catch (err) {
     console.log(err.message)
-    res.send('error')
+    res.status(500).json({ message: 'Unable to get surveys' })
   }
 })
 
@@ -67,7 +71,7 @@ app.get('/surveys/:id', async (req, res) => {
     console.log('sending response')
   } catch (err) {
     console.log(err.message)
-    res.send('error')
+    res.status(500).json({ message: 'Unable to get this survey' })
   }
 })
 
@@ -125,7 +129,7 @@ app.post('/createSurvey', async (req, res) => {
     res.send('200')
   } catch (err) {
     console.log(err.message)
-    res.send(new Error())
+    res.status(500).json({ message: 'Unable to add lesson' })
   }
 })
 
