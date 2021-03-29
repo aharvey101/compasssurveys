@@ -5,6 +5,7 @@ const cors = require('cors')
 const pool = require('./db')
 const path = require('path')
 const sql = require('sql')
+const router = express.Router()
 
 pool.connect().then(console.log('connected to db'))
 
@@ -13,17 +14,9 @@ pool.connect().then(console.log('connected to db'))
 app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
-// serve client as static:
-// if in production
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static('client/build'))
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'))
-  })
-}
 
 // GET all surveys
-app.get('/api/surveys', async (req, res) => {
+router.get('/api/surveys', async (req, res) => {
   try {
     // get surveys
     const allSurveys = await pool.query('SELECT * FROM surveys')
@@ -36,7 +29,7 @@ app.get('/api/surveys', async (req, res) => {
 })
 
 // Get A survey
-app.get('/api/surveys/:id', async (req, res) => {
+router.get('/api/surveys/:id', async (req, res) => {
   try {
     //get a specific survey
     const { id } = req.params
@@ -75,7 +68,7 @@ app.get('/api/surveys/:id', async (req, res) => {
 
 // Create a survey
 
-app.post('/api/createSurvey', async (req, res) => {
+router.post('/api/createSurvey', async (req, res) => {
   const survey = req.body
   console.log('survey is,', survey)
   try {
@@ -130,5 +123,14 @@ app.post('/api/createSurvey', async (req, res) => {
     res.status(500).json({ message: 'Unable to add lesson' })
   }
 })
+
+// serve client as static:
+// if in production
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('client/build'))
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'))
+  })
+}
 
 module.exports = app
