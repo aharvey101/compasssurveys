@@ -28,6 +28,7 @@ app.get('/surveys', async (req, res) => {
     console.log('sending surveys')
   } catch (err) {
     console.log(err.message)
+    res.send('error')
   }
 })
 
@@ -65,6 +66,7 @@ app.get('/surveys/:id', async (req, res) => {
     console.log('sending response')
   } catch (err) {
     console.log(err.message)
+    res.send('error')
   }
 })
 
@@ -74,14 +76,12 @@ app.post('/createSurvey', async (req, res) => {
   const survey = req.body
   console.log('survey is,', survey)
   try {
-    //Create entry in survey table
+    //insert survey table
     const surveyRes = await pool.query(
       'INSERT INTO surveys (name) values ($1) RETURNING *',
       [survey.name]
     )
-    console.log(surveyRes.rows)
-    // then create questions with survey id,
-
+    // then insert questions with survey id,
     const questionsToPost = survey.questions.map((question) => ({
       survey_id: surveyRes.rows[0].id,
       title: question.title,
@@ -100,7 +100,7 @@ app.post('/createSurvey', async (req, res) => {
 
     console.log('questionRes is', questionRes.rows)
 
-    //Define table for query:
+    // Then insert answers for questions
     const Answers = sql.define({
       name: 'answers',
       columns: ['id', 'survey_id', 'title', 'question_id'],
@@ -118,23 +118,12 @@ app.post('/createSurvey', async (req, res) => {
 
     // make query for answers
     const answerQuery = Answers.insert(answersArray).returning('*').toQuery()
+
     const answersRes = await pool.query(answerQuery)
 
     res.send('200')
   } catch (err) {
     console.log(err.message)
-    res.send(new Error())
-  }
-})
-
-// server side is admin check
-
-app.get('/adminCheck', (req, res) => {
-  const password = req.body
-
-  if ((password = 'isAdmin')) {
-    res.send(200)
-  } else {
     res.send(new Error())
   }
 })

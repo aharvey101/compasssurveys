@@ -7,6 +7,7 @@ const Question = ({ id, title, question, answers }) => (
   <QuestionStyle>
     <h1>{title}</h1>
     <p>{question}</p>
+
     <form>
       {answers.map((answer) => (
         <div className="answer" key={answer.id}>
@@ -24,7 +25,9 @@ const Survey = ({ baseUrl }) => {
 
   const getSurvey = async (id) => {
     try {
-      const response = await (await fetch(`${baseUrl}${id}`)).json()
+      const url = `${baseUrl}surveys/${id}`
+      console.log(url)
+      const response = await (await fetch(`${baseUrl}surveys/${id}`)).json()
       setSurvey(response)
       setLoading(false)
     } catch (err) {
@@ -49,7 +52,7 @@ const Survey = ({ baseUrl }) => {
       />
     ))
   }
-
+  console.log(survey)
   return (
     <>
       {!loading ? (
@@ -68,7 +71,9 @@ const Survey = ({ baseUrl }) => {
             <Back>Back</Back>
           </Link>
         </>
-      ) : null}
+      ) : (
+        <h1>Loading</h1>
+      )}
     </>
   )
 }

@@ -178,7 +178,9 @@ const CreateSurvey = ({ baseUrl }) => {
           <Link to="/">
             <Back>Back</Back>
           </Link>
-          <Submit onClick={submit}>Submit</Submit>
+          <Link to="/">
+            <Submit onClick={submit}>Submit</Submit>
+          </Link>
         </div>
       </FormWrapper>
     </>
