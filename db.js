@@ -8,15 +8,4 @@ const pool = new Pool({
   database: process.env.DATABASE_URL,
 })
 
-// const knex = require('knex')({
-//   client: 'pg',
-//   connection: {
-//     user: process.env.DB_USER,
-//     password: process.env.PASSWORD,
-//     host: process.env.HOST,
-//     port: process.env.PORT,
-//     database: process.env.DATABASE_URL,
-//   },
-// })
-
 module.exports = pool

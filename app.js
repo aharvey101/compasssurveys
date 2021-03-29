@@ -6,9 +6,12 @@ const pool = require('./db')
 const sql = require('sql')
 
 // middleware
+app.use(sslRedirect())
 app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
+// serve client as static:
+app.use(express.static(path.join(__dirname, 'public')))
 
 // GET all surveys
 app.get('/surveys', async (req, res) => {
