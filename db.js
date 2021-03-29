@@ -20,4 +20,6 @@ const pool = new Pool({
   ...poolEnv,
 })
 
+pool.connect()
+
 module.exports = pool
