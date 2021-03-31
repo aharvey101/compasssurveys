@@ -35,7 +35,7 @@ function App({ baseUrl }) {
       console.error(err.message)
     }
   }
-
+  // for real backend
   // useEffect(async () => {
   //   const res = await getSurveys()
   //   if (res) {
