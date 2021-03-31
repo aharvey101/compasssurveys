@@ -14,7 +14,7 @@ const App = () => {
     process.env.NODE_ENV === 'production'
       ? '/api'
       : 'http://localhost:5000/api/'
-  console.log(baseUrl)
+
   return (
     <Router>
       <GlobalStyle />
