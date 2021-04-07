@@ -30,7 +30,7 @@ function App({ baseUrl }) {
       setSurveys(response)
       return true
     } catch (err) {
-      console.error(err)
+      console.log(err.message)
     }
   }
   // for real backend
