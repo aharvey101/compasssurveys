@@ -69,7 +69,6 @@ router.post('/createSurvey', async (req, res) => {
       title: question.title,
       question: question.question,
     }))
-    console.log('q to post are', questionsToPost)
     const Questions = sql.define({
       name: 'questions',
       columns: ['id', 'survey_id', 'title', 'question'],
