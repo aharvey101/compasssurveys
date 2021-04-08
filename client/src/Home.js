@@ -20,7 +20,7 @@ function App({ baseUrl }) {
   const getSurveys = async () => {
     try {
       const response = await (
-        await fetch(`${baseUrl}/surveys`, {
+        await fetch(`${baseUrl}surveys`, {
           method: 'GET',
           // mode: 'cors',
           // credientials: 'same-origin',

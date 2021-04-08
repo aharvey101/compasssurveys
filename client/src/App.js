@@ -12,7 +12,7 @@ const App = () => {
 
   const baseUrl =
     process.env.NODE_ENV === 'production'
-      ? '/api'
+      ? '/api/'
       : 'http://localhost:5000/api/'
 
   return (
