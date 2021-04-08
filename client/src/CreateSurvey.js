@@ -70,7 +70,7 @@ const CreateSurvey = ({ baseUrl }) => {
   const submit = async (e) => {
     e.preventDefault()
     const submitObj = await makeSubmitObject()
-    console.log(submitObj)
+
     try {
       const res = await fetch(`${baseUrl}createsurvey`, {
         method: 'POST',
@@ -79,7 +79,7 @@ const CreateSurvey = ({ baseUrl }) => {
         },
         body: JSON.stringify(submitObj),
       })
-      // window.location = '/'
+      window.location = '/'
     } catch (err) {
       console.log(err.message)
     }
