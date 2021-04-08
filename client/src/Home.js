@@ -22,8 +22,8 @@ function App({ baseUrl }) {
       const response = await (
         await fetch(`${baseUrl}surveys`, {
           method: 'GET',
-          mode: 'cors',
-          credientials: 'same-origin',
+          // mode: 'cors',
+          // credientials: 'same-origin',
           headers: { 'Content-Type': 'application/json' },
         })
       ).json()
