@@ -7,16 +7,16 @@ const client = new Client({
   },
 })
 
-client.query(
-  'SELECT table_schema,table_name FROM information_schema.tables;',
-  (err, res) => {
-    if (err) throw err
-    for (let row of res.rows) {
-      console.log(JSON.stringify(row))
-    }
-    client.end()
-  }
-)
+// client.query(
+//   'SELECT table_schema,table_name FROM information_schema.tables;',
+//   (err, res) => {
+//     if (err) throw err
+//     for (let row of res.rows) {
+//       console.log(JSON.stringify(row))
+//     }
+//     client.end()
+//   }
+// )
 
 const pool = new Pool({
   user: process.env.DB_USER,

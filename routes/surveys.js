@@ -7,6 +7,7 @@ router.get('/surveys', async (req, res) => {
   try {
     // get surveys
     const allSurveys = await pool.query('SELECT * FROM surveys')
+
     res.json(allSurveys.rows)
   } catch (err) {
     console.log(err.message)
