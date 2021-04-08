@@ -32,7 +32,7 @@ const Survey = ({ baseUrl }) => {
 
   const getSurvey = async (id) => {
     try {
-      const response = await (await fetch(`${baseUrl}surveys/${id}`)).json()
+      const response = await (await fetch(`${baseUrl}/surveys/${id}`)).json()
       setSurvey(response)
       setLoading(false)
     } catch (err) {
